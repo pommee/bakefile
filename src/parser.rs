@@ -1,45 +1,11 @@
-trait RecepieUtil {
-    fn new() -> Self;
-    fn print(&self);
-    fn reset(&mut self);
+use crate::recepie::Recepie;
+use crate::recepie::RecepieUtil;
+
+pub struct Bakefile {
+    pub recepies: Vec<Recepie>,
 }
 
-#[derive(Debug, Clone)]
-struct Recepie {
-    name: String,
-    dependencies: Vec<String>,
-    commands: Vec<String>,
-}
-
-impl RecepieUtil for Recepie {
-    fn new() -> Self {
-        Recepie {
-            name: String::new(),
-            dependencies: Vec::new(),
-            commands: Vec::new(),
-        }
-    }
-
-    fn print(&self) {
-        println!("{}", self.name);
-        println!("  Deps: {:?}", self.dependencies);
-        println!("  Commands: {:?}", self.commands);
-    }
-
-    fn reset(&mut self) {
-        *self = Recepie {
-            name: String::new(),
-            dependencies: Vec::new(),
-            commands: Vec::new(),
-        };
-    }
-}
-
-struct Bakefile {
-    recepies: Vec<Recepie>,
-}
-
-pub fn parse(mut bakefile_content: String) {
+pub fn parse(mut bakefile_content: String) -> Bakefile {
     bakefile_content.push_str("\n");
     println!("Parsing Bakefile of size {} bytes", bakefile_content.len());
     let mut bakefile = Bakefile {
@@ -89,9 +55,7 @@ pub fn parse(mut bakefile_content: String) {
         }
     });
 
-    for recepie in bakefile.recepies {
-        recepie.print();
-    }
+    return bakefile;
 }
 
 fn parse_recepie(line: &str) -> String {
