@@ -1,0 +1,6 @@
+
+!build-dev: lint
+    cargo build
+
+!build-prod:
+    cargo build --release
