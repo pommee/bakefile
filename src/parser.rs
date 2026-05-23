@@ -2,21 +2,29 @@ use crate::recepie::Recepie;
 use crate::recepie::RecepieUtil;
 
 pub struct Bakefile {
-    pub recepies: Vec<Recepie>,
+    pub recepies: std::collections::HashMap<String, Recepie>,
 }
 
 pub fn parse(mut bakefile_content: String) -> Bakefile {
     bakefile_content.push_str("\n");
     println!("Parsing Bakefile of size {} bytes", bakefile_content.len());
     let mut bakefile = Bakefile {
-        recepies: Vec::new(),
+        recepies: std::collections::HashMap::new(),
     };
     let mut recepie: Recepie = Recepie::new();
 
     bakefile_content.lines().for_each(|line| {
         if line.is_empty() && !recepie.name.is_empty() {
             println!("Empty line, finished recepie: {}", recepie.name);
-            bakefile.recepies.push(recepie.clone());
+            if bakefile.recepies.contains_key(&recepie.name) {
+                println!("Recepie {} already exists, skipping", recepie.name);
+                recepie.reset();
+                return;
+            }
+
+            bakefile
+                .recepies
+                .insert(recepie.name.clone(), recepie.clone());
             recepie.reset();
             return;
         }
@@ -33,7 +41,15 @@ pub fn parse(mut bakefile_content: String) -> Bakefile {
 
         if line.starts_with("!") && !recepie.name.is_empty() {
             println!("Last line, finishing current recepie: {}", recepie.name);
-            bakefile.recepies.push(recepie.clone());
+            if bakefile.recepies.contains_key(&recepie.name) {
+                println!("Recepie {} already exists, skipping", recepie.name);
+                recepie.reset();
+                return;
+            }
+
+            bakefile
+                .recepies
+                .insert(recepie.name.clone(), recepie.clone());
             recepie.reset();
         }
 

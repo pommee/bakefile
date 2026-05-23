@@ -1,9 +1,6 @@
 [package]
 name = "bake"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2024"
-
-parser = { path = "src/parser.rs" }
-recepie = { path = "src/recepie.rs" }
 
 [dependencies]

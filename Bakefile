@@ -1,6 +1,12 @@
 
-!build-dev: lint
-    cargo build
+# First step to execute
+!format:
+    cargo fmt
 
-!build-prod:
+# Lint the codebase, but format first
+!lint: format
+    cargo lint
+
+# Build a binary in release mode, but run lint firstly
+!build-prod: lint
     cargo build --release
