@@ -3,7 +3,6 @@ use std::process::Command;
 pub trait RecepieUtil {
     fn new() -> Self;
     fn run(&self);
-    fn print(&self);
     fn reset(&mut self);
     fn has_deps(&self) -> bool;
 }
@@ -42,12 +41,6 @@ impl RecepieUtil for Recepie {
             .arg(full_command)
             .status()
             .expect("Failed to execute command");
-    }
-
-    fn print(&self) {
-        println!("{}", self.name);
-        println!("  Deps: {:?}", self.dependencies);
-        println!("  Commands: {:?}", self.commands);
     }
 
     fn reset(&mut self) {

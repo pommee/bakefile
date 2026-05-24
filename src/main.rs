@@ -1,7 +1,7 @@
 mod parser;
 mod recepie;
-use crate::recepie::RecepieUtil;
-use std::{env, fs, process};
+use crate::parser::start;
+use std::{env, fs};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -15,13 +15,5 @@ fn main() {
     let bakefile_content = fs::read_to_string("Bakefile").expect("Failed to read Bakefile");
     let bakefile = parser::parse(bakefile_content);
 
-    let recepie = match bakefile.recepies.get(&args[1]) {
-        Some(recepie) => recepie,
-        None => {
-            println!("Recepie with name '{}' was not found, existing.", args[1]);
-            process::exit(1);
-        }
-    };
-
-    recepie.run();
+    start(bakefile, &args[1]);
 }

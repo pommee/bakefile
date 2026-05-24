@@ -1,8 +1,24 @@
 use crate::recepie::Recepie;
 use crate::recepie::RecepieUtil;
+use std::process;
 
 pub struct Bakefile {
     pub recepies: std::collections::HashMap<String, Recepie>,
+}
+
+pub fn start(bakefile: Bakefile, recepie_target: &str) {
+    let recepie = match bakefile.recepies.get(recepie_target) {
+        Some(recepie) => recepie,
+        None => {
+            println!(
+                "Recepie with name {} was not found, existing.",
+                recepie_target
+            );
+            process::exit(1);
+        }
+    };
+
+    recepie.run();
 }
 
 pub fn parse(mut bakefile_content: String) -> Bakefile {

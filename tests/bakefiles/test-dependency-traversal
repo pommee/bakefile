@@ -1,0 +1,8 @@
+!format:
+    echo "#1"
+
+!lint: format
+    echo "#2"
+
+!build: lint
+    echo "#3"
