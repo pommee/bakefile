@@ -1,6 +1,6 @@
 mod parser;
 mod recepie;
-use crate::recepie::{Recepie, RecepieUtil};
+use crate::recepie::RecepieUtil;
 use std::{env, fs, process};
 
 fn main() {
